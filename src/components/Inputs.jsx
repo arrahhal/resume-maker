@@ -3,11 +3,11 @@ import { UploadIcon, DeleteIcon, CloseIcon } from './Icons';
 function Label({ forId, label }) {
   return <label className="block font-medium text-sm mb-1" htmlFor={forId}>{label}</label>
 }
-export function Input({ id, label, className = "", type, placeholder, value }) {
+export function Input({ id, label, className = "", type, placeholder, value, onChange, sectionKey, section }) {
   return (
     <div className={"w-full".concat(" ", className)}>
       <Label forId={id} label={label} />
-      <input type={type} id={id} placeholder={placeholder} className="block w-full text-sm text-gray-700 border p-1 mb-0.5" value={value} />
+      <input type={type} id={id} placeholder={placeholder} className="block w-full text-sm text-gray-700 border p-1 mb-0.5" value={value} data-key={sectionKey} data-section={section} onChange={onChange} />
     </div>
   )
 }
@@ -43,11 +43,11 @@ export function Button({ content, className, id, variant = "", onClick }) {
   )
 }
 
-export function Textarea({ label, className = "", id, value, onChange }) {
+export function Textarea({ label, className = "", id, value, onChange, sectionKey, section }) {
   return (
     <div className={className}>
       <Label forId={id} label={label} />
-      <textarea rows="4" className="block p-1 resize-none text-sm text-gray-700 border w-full" id={id} value={value} onChange={() => onChange()}></textarea>
+      <textarea rows="4" className="block p-1 resize-none text-sm text-gray-700 border w-full" id={id} value={value} data-section={section} data-key={sectionKey} onChange={onChange}></textarea>
     </div>
   )
 }
@@ -64,7 +64,7 @@ export function RangeInput({ value, id, className = "", label = "Level" }) {
   )
 }
 
-export function AvatarInput({ id, uploaded = false, className = "", inputClassName = "", ImgPath, onChange }) {
+export function AvatarInput({ id, uploaded = false, className = "", inputClassName = "", value = "", onChange }) {
   let icon;
   if (uploaded)
     icon = <DeleteIcon width="12px" height="12px" />
@@ -78,7 +78,7 @@ export function AvatarInput({ id, uploaded = false, className = "", inputClassNa
           <div className="absolute h-full w-full bg-gray-200"></div>
           <div className="avatar-hover absolute z-10 h-full w-full bg-gray-900/50 justify-center items-center cursor-pointer" title={uploaded ? "delete" : "upload"}>{icon}</div>
         </label>
-        <input id={id} value={ImgPath} onChange={() => onChange()} className="hidden" type="file" accept="image/png, image/jpeg" />
+        <input id={id} value={value} onChange={() => onChange()} className="hidden" type="file" accept="image/png, image/jpeg" />
         <style> {`
         .avatar {
           --show-icon: none;
@@ -92,7 +92,7 @@ export function AvatarInput({ id, uploaded = false, className = "", inputClassNa
       `}
         </style>
       </div>
-      <Input className={inputClassName} label="Picture" value={ImgPath} placeholder="https://..." />
+      <Input className={inputClassName} label="Picture" value={value} placeholder="https://..." />
     </div>
   )
 }
