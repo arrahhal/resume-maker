@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { Input, Button, Textarea, AvatarInput } from './components/Inputs';
 import { Legend } from './components/Styled';
+import Resume from './components/Resume';
 
 const init = {
   basics: {
@@ -15,6 +17,17 @@ const init = {
 }
 
 function App() {
+  const [data, setData] = useState(init);
+
+  const handleInputChange = (e) => {
+    const key = e.target.dataset.key;
+    const section = e.target.dataset.section;
+    const value = e.target.value;
+
+    const updatedSection = { ...data[section], [key]: value };
+    const updatedData = { ...data, [section]: updatedSection };
+    setData(updatedData);
+  }
 
   return (
     <>
@@ -40,6 +53,7 @@ function App() {
             </fieldset>
           </form>
         </div>
+        <Resume basics={data.basics} />
       </div>
     </>
   )
