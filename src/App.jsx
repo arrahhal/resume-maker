@@ -29,6 +29,37 @@ function App() {
     setData(updatedData);
   }
 
+  const handleFileChange = (e) => {
+
+    const key = e.target.dataset.key;
+    const section = e.target.dataset.section;
+    const file = e.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const path = reader.result;
+        const updatedSection = { ...data[section], [key]: path };
+        const updatedData = { ...data, [section]: updatedSection };
+        setData(updatedData);
+      };
+      reader.readAsDataURL(file);
+    }
+
+  }
+
+  const handleFileClick = (e) => {
+    if (e.target.value != "") {
+      const key = e.target.dataset.key;
+      const section = e.target.dataset.section;
+      e.preventDefault();
+      e.target.value = "";
+      const updatedSection = { ...data[section], [key]: "" };
+      const updatedData = { ...data, [section]: updatedSection };
+      setData(updatedData);
+    }
+  }
+
   return (
     <>
       <div className="grid grid-flow-col grid-cols-2 gap-4 w-[80rem] mx-auto max-w-full px-2">
@@ -37,7 +68,7 @@ function App() {
             <fieldset>
               <Legend content="Basics" />
               <div className="grid grid-cols-2 gap-1 p-2 gap-x-10">
-                <AvatarInput value={init.basics.picture} id="avatar" label="Picture" placeholder="https://..." />
+                <AvatarInput onFileClick={handleFileClick} onFileChange={handleFileChange} onChange={handleInputChange} value={data.basics.picture} id="avatar" label="Picture" placeholder="https://..." sectionKey="picture" section="basics" />
                 <Input onChange={handleInputChange} value={data.basics.fullName} id="full-name" label="Full Name" sectionKey="fullName" section="basics" />
                 <Input value={data.basics.headline} onChange={handleInputChange} sectionKey="headline" section="basics" className="col-span-2" id="headline" label="Headline" />
                 <Input value={data.basics.email} onChange={handleInputChange} sectionKey="email" section="basics" id="email" label="Email" placeholder="you@example.com" />

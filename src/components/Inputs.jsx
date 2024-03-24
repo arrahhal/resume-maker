@@ -1,9 +1,10 @@
 import { UploadIcon, DeleteIcon, CloseIcon } from './Icons';
+import { useState } from 'react';
 
 function Label({ forId, label }) {
   return <label className="block font-medium text-sm mb-1" htmlFor={forId}>{label}</label>
 }
-export function Input({ id, label, className = "", type, placeholder, value, onChange, sectionKey, section }) {
+export function Input({ id, label, className = "", type = "text", placeholder, value, onChange, sectionKey, section }) {
   return (
     <div className={"w-full".concat(" ", className)}>
       <Label forId={id} label={label} />
@@ -64,21 +65,21 @@ export function RangeInput({ value, id, className = "", label = "Level" }) {
   )
 }
 
-export function AvatarInput({ id, uploaded = false, className = "", inputClassName = "", value = "", onChange }) {
+export function AvatarInput({ id, className = "", inputClassName = "", value = "", onFileClick, onFileChange, onChange, sectionKey, section }) {
   let icon;
-  if (uploaded)
-    icon = <DeleteIcon width="12px" height="12px" />
+  if (value)
+    icon = <DeleteIcon width="12px" height="12px" fill="#ffffff" />
   else
-    icon = <UploadIcon widht="12px" height="12px" />
+    icon = <UploadIcon widht="12px" height="12px" fill="#ffffff" />
 
   return (
     <div className={"flex gap-3".concat(" ", className)}>
       <div>
         <label className="avatar relative block overflow-hidden w-[60px] h-[60px] rounded-full" htmlFor={id}>
-          <div className="absolute h-full w-full bg-gray-200"></div>
-          <div className="avatar-hover absolute z-10 h-full w-full bg-gray-900/50 justify-center items-center cursor-pointer" title={uploaded ? "delete" : "upload"}>{icon}</div>
+          <div className="absolute h-full w-full bg-gray-200"><img className="w-full h-full object-cover" src={value} alt="avatar" /></div>
+          <div className="avatar-hover absolute z-10 h-full w-full bg-gray-900/50 justify-center items-center cursor-pointer" title={value ? "delete" : "upload"}>{icon}</div>
         </label>
-        <input id={id} value={value} onChange={() => onChange()} className="hidden" type="file" accept="image/png, image/jpeg" />
+        <input id={id} onClick={onFileClick} onChange={onFileChange} className="hidden" type="file" accept="image/png, image/jpeg" data-section={section} data-key={sectionKey} />
         <style> {`
         .avatar {
           --show-icon: none;
@@ -92,7 +93,7 @@ export function AvatarInput({ id, uploaded = false, className = "", inputClassNa
       `}
         </style>
       </div>
-      <Input className={inputClassName} label="Picture" value={value} placeholder="https://..." />
+      <Input className={inputClassName} label="Picture" value={value} placeholder="https://..." section={section} sectionKey={sectionKey} onChange={onChange} />
     </div>
   )
 }
