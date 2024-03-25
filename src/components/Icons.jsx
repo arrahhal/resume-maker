@@ -1,8 +1,8 @@
 export function UploadIcon({ width = "24px", height = "24px", fill = "#000000" }) {
   return (
     <svg width={width} height={height} viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" fill={fill}>
-      <g strokeWidth="0"></g>
-      <g strokeLinecap="round" strokeLinejoin="round"></g>
+      <g strokeWidth="0" />
+      <g strokeLinecap="round" strokeLinejoin="round" />
       <g>
         <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
           <g id="Dribbble-Light-Preview" transform="translate(-260.000000, -6959.000000)" fill={fill}>
@@ -19,8 +19,8 @@ export function UploadIcon({ width = "24px", height = "24px", fill = "#000000" }
 export function DeleteIcon({ width = "24px", height = "24px", fill = "#000000" }) {
   return (
     <svg width={width} height={height} viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" fill={fill}>
-      <g strokeWidth="0"></g>
-      <g strokeLinecap="round" strokeLinejoin="round"></g>
+      <g strokeWidth="0" />
+      <g strokeLinecap="round" strokeLinejoin="round" />
       <g>
         <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
           <g id="Dribbble-Light-Preview" transform="translate(-179.000000, -360.000000)" fill={fill}>
@@ -37,8 +37,8 @@ export function DeleteIcon({ width = "24px", height = "24px", fill = "#000000" }
 export function CloseIcon({ width = "24px", height = "24px", fill = "#000000" }) {
   return (
     <svg width={width} height={height} viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" fill={fill}>
-      <g strokeWidth="0"></g>
-      <g strokeLinecap="round" strokeLinejoin="round"></g>
+      <g strokeWidth="0" />
+      <g strokeLinecap="round" strokeLinejoin="round" />
       <g>
         <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
           <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -240.000000)" fill={fill}>
@@ -52,7 +52,7 @@ export function CloseIcon({ width = "24px", height = "24px", fill = "#000000" })
   )
 }
 
-export function PhoneIcon({ width = "12px", height = "12px", fill = "#000000" }) {
+export function PhoneIcon({ width = "12px", height = "12px" }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -61,7 +61,7 @@ export function PhoneIcon({ width = "12px", height = "12px", fill = "#000000" })
   )
 }
 
-export function EmailIcon({ width = "12px", height = "12px", fill = "#000000" }) {
+export function EmailIcon({ width = "12px", height = "12px" }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -72,7 +72,7 @@ export function EmailIcon({ width = "12px", height = "12px", fill = "#000000" })
 }
 
 
-export function WebsiteIcon({ width = "12px", height = "12px", fill = "#000000" }) {
+export function WebsiteIcon({ width = "12px", height = "12px" }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -90,7 +90,7 @@ export function WebsiteIcon({ width = "12px", height = "12px", fill = "#000000" 
 }
 
 
-export function AddressIcon({ width = "12px", height = "12px", fill = "#000000" }) {
+export function AddressIcon({ width = "12px", height = "12px" }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />

@@ -1,10 +1,11 @@
 import { PhoneIcon, EmailIcon, WebsiteIcon, AddressIcon } from "./Icons";
 
-function ContactEntry({ icon, content }) {
+function ContactEntry({ iconName, content }) {
   const width = "12px";
   const height = "12px";
+  let icon = "";
 
-  switch (icon) {
+  switch (iconName) {
     case "phone": icon = <PhoneIcon width={width} height={height} />;
       break;
     case "email": icon = <EmailIcon width={width} height={height} />;
@@ -13,7 +14,7 @@ function ContactEntry({ icon, content }) {
       break;
     case "address": icon = <AddressIcon width={width} height={height} />
       break;
-    default: icon = <div width={width} height={width}></div>
+    default: icon = <div width={width} height={width} />
   }
   return (
     <div className="flex items-center gap-1">
@@ -40,10 +41,10 @@ export default function Resume({ basics }) {
             <p>{basics.headline}</p>
           </div>
           <div className="flex gap-4">
-            {basics.address && <ContactEntry icon="address" content={basics.address} />}
-            {basics.phone && <ContactEntry icon="phone" content={basics.phone} />}
-            {basics.email && <ContactEntry icon="email" content={basics.email} />}
-            {basics.website && <ContactEntry icon="website" content={basics.website} />}
+            {basics.address && <ContactEntry iconName="address" content={basics.address} />}
+            {basics.phone && <ContactEntry iconName="phone" content={basics.phone} />}
+            {basics.email && <ContactEntry iconName="email" content={basics.email} />}
+            {basics.website && <ContactEntry iconName="website" content={basics.website} />}
           </div>
         </div>
       </div>

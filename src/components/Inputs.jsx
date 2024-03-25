@@ -1,5 +1,4 @@
 import { UploadIcon, DeleteIcon, CloseIcon } from './Icons';
-import { useState } from 'react';
 
 function Label({ forId, label }) {
   return <label className="block font-medium text-sm mb-1" htmlFor={forId}>{label}</label>
@@ -16,8 +15,8 @@ export function Input({ id, label, className = "", type = "text", placeholder, v
 export function Button({ content, className, id, variant = "", onClick }) {
   let styles;
   const common = "text-sm font-medium p-1 m-1 active:scale-95 text-white rounded-sm max-w-min";
-  const primary = common + " bg-blue-500 active:bg-blue-500/80";
-  const danger = common + " bg-red-500 active:bg-red-500/80";
+  const primary = common.concat(" ", "bg-blue-500 active:bg-blue-500/80");
+  const danger = common.concat(" ", " bg-red-500 active:bg-red-500/80");
   const outline = "block text-sm font-medium px-4 py-1 active:underline active:bg-gray-200/20 active:border-solid";
   const close = "p-1 border rounded-sm border-transparent active:border-black";
 
@@ -33,14 +32,13 @@ export function Button({ content, className, id, variant = "", onClick }) {
       break;
     case "close":
       styles = close;
-      content = <CloseIcon width="12px" height="12px" />
       break;
     default:
       styles = primary;
   }
 
   return (
-    <button onClick={() => onClick()} className={styles.concat(" ", className)} id={id}>{content}</button>
+    <button type="button" onClick={onClick} className={styles.concat(" ", className)} id={id}>{variant.toLowerCase() === "close" ? <CloseIcon width="12px" height="12px" /> : content}</button>
   )
 }
 
@@ -48,7 +46,7 @@ export function Textarea({ label, className = "", id, value, onChange, sectionKe
   return (
     <div className={className}>
       <Label forId={id} label={label} />
-      <textarea rows="4" className="block p-1 resize-none text-sm text-gray-700 border w-full" id={id} value={value} data-section={section} data-key={sectionKey} onChange={onChange}></textarea>
+      <textarea rows="4" className="block p-1 resize-none text-sm text-gray-700 border w-full" id={id} data-section={section} data-key={sectionKey} onChange={onChange}>{value}</textarea>
     </div>
   )
 }
