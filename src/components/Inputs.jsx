@@ -7,18 +7,18 @@ export function Input({ id, label, className = "", type = "text", placeholder, v
   return (
     <div className={"w-full".concat(" ", className)}>
       <Label forId={id} label={label} />
-      <input type={type} id={id} placeholder={placeholder} className="block w-full text-sm text-gray-700 border p-1 mb-0.5" value={value} data-key={sectionKey} data-section={section} onChange={onChange} />
+      <input type={type} id={id} placeholder={placeholder} className="block w-full text-sm text-gray-700 border p-1 mb-0.5" value={value} onChange={(e) => onChange(e.target.value, section, sectionKey)} />
     </div>
   )
 }
 
-export function Button({ content, className, id, variant = "", onClick }) {
+export function Button({ content, className, id, variant = "", onClick, type = "button" }) {
   let styles;
-  const common = "text-sm font-medium p-1 m-1 active:scale-95 text-white rounded-sm max-w-min";
-  const primary = common.concat(" ", "bg-blue-500 active:bg-blue-500/80");
-  const danger = common.concat(" ", " bg-red-500 active:bg-red-500/80");
+  const common = "rounded-sm text-sm font-medium py-1 px-3 active:scale-95 text-white";
+  const primary = common.concat(" ", "bg-black active:bg-black/80");
+  const danger = common.concat(" ", "bg-red-500 active:bg-red-500/80");
   const outline = "block text-sm font-medium px-4 py-1 active:underline active:bg-gray-200/20 active:border-solid";
-  const close = "p-1 border rounded-sm border-transparent active:border-black";
+  const close = "block m-1 p-1 border rounded-sm border-transparent active:border-black";
 
   switch (variant.toLowerCase()) {
     case "primary":
@@ -38,7 +38,7 @@ export function Button({ content, className, id, variant = "", onClick }) {
   }
 
   return (
-    <button type="button" onClick={onClick} className={styles.concat(" ", className)} id={id}>{variant.toLowerCase() === "close" ? <CloseIcon width="12px" height="12px" /> : content}</button>
+    <button type={type === "submit" ? "submit" : "button"} onClick={onClick} className={styles.concat(" ", className)} id={id}>{variant.toLowerCase() === "close" ? <CloseIcon width="12px" height="12px" /> : content}</button>
   )
 }
 
@@ -46,17 +46,17 @@ export function Textarea({ label, className = "", id, value, onChange, sectionKe
   return (
     <div className={className}>
       <Label forId={id} label={label} />
-      <textarea rows="4" className="block p-1 resize-none text-sm text-gray-700 border w-full" id={id} data-section={section} data-key={sectionKey} onChange={onChange}>{value}</textarea>
+      <textarea rows="4" className="block p-1 resize-none text-sm text-gray-700 border w-full" id={id} value={value} onChange={(e) => onChange(e.target.value, section, sectionKey)} />
     </div>
   )
 }
 
-export function RangeInput({ value, id, className = "", label = "Level" }) {
+export function RangeInput({ value, id, onChange, className = "", label = "Level", section, sectionKey }) {
   return (
     <div className={className}>
       <Label forId={id} label={label} />
       <div className="flex gap-2">
-        <input type="range" id={id} value={value} onChange={() => onChange()} max="5" />
+        <input type="range" id={id} value={value} onChange={() => onChange(value, section, sectionKey)} max="5" />
         <span>{value}</span>
       </div>
     </div>
@@ -77,7 +77,7 @@ export function AvatarInput({ id, className = "", inputClassName = "", value = "
           <div className="absolute h-full w-full bg-gray-200"><img className="w-full h-full object-cover" src={value} alt="avatar" /></div>
           <div className="avatar-hover absolute z-10 h-full w-full bg-gray-900/50 justify-center items-center cursor-pointer" title={value ? "delete" : "upload"}>{icon}</div>
         </label>
-        <input id={id} onClick={onFileClick} onChange={onFileChange} className="hidden" type="file" accept="image/png, image/jpeg" data-section={section} data-key={sectionKey} />
+        <input id={id} onClick={(e) => onFileClick(e, section, sectionKey)} onChange={(e) => onFileChange(e.target.files[0], section, sectionKey)} className="hidden" type="file" accept="image/png, image/jpeg" />
         <style> {`
         .avatar {
           --show-icon: none;

@@ -26,15 +26,13 @@ function App() {
     setData(updatedData);
   }
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-
+  const handleFileChange = (file, section, key) => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         const path = reader.result;
-        const updatedSection = { ...data[e.target.dataset.section], [e.target.dataset.key]: path };
-        const updatedData = { ...data, [e.target.dataset.section]: updatedSection };
+        const updatedSection = { ...data[section], [key]: path };
+        const updatedData = { ...data, [section]: updatedSection };
         setData(updatedData);
       };
       reader.readAsDataURL(file);
@@ -42,11 +40,16 @@ function App() {
 
   }
 
-  const handleFileClick = (e) => {
+  const handleModalInputChange = (value, section, key) => {
+    const updated = { ...modals[section], values: { ...modals[section].values, [key]: value } };
+    setModals({ ...modals, [section]: updated });
+  };
+
+  const handleFileClick = (e, section, key) => {
     if (e.target.value !== "") {
       e.preventDefault();
       e.target.value = "";
-      const updatedSection = { ...data[e.target.dataset.key], [e.target.dataset.key]: "" };
+      const updatedSection = { ...data[key], [key]: "" };
       const updatedData = { ...data, [e.target.dataset.section]: updatedSection };
       setData(updatedData);
     }
