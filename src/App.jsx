@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { v4 as uuid } from 'uuid';
 import { Input, Button, Textarea, AvatarInput } from './components/Inputs';
 import Legend from "./components/Styled";
 import Resume from './components/Resume';
 import Modal from "./components/Modal";
+import List from "./components/List";
 
 const init = {
   basics: {
@@ -15,15 +17,16 @@ const init = {
     address: "Moon/Mars and whats beyond",
     summary: "bla bla, such and such, this should be a tow to three rows paragraph describing who are you and what are the things your good at. bla bla, such and such, this should be a tow to three rows paragraph describing who are you and what are the things your good at.",
   },
+  experience: {},
+  education: {},
 }
 
 function App() {
   const [data, setData] = useState(init);
 
   const initModals = {
-    "experience": {
-      show: false,
-      id: 0,
+    experience: {
+      show: true,
       values: {
         company: "",
         position: "",
@@ -33,9 +36,8 @@ function App() {
         summary: "",
       }
     },
-    "education": {
+    education: {
       show: false,
-      id: 0,
       values: {
         institution: "",
         score: "",
@@ -47,6 +49,7 @@ function App() {
       }
     }
   }
+
   const [modals, setModals] = useState(initModals);
 
   const handleInputChange = (value, section, key) => {
@@ -70,28 +73,41 @@ function App() {
 
   }
 
+  // TODO: modal state not changed after reset the form
   const handleModalInputChange = (value, section, key) => {
     const updated = { ...modals[section], values: { ...modals[section].values, [key]: value } };
     setModals({ ...modals, [section]: updated });
   };
 
   const handleCloseModalClick = (modal) => {
-    const values = { ...modals[modal].values };
-    Object.keys(values).forEach(key => {
-      values[key] = "";
-    })
-    const updatedModal = { ...modals[modal], show: false, values };
-    setModals({ ...modals, modal: updatedModal });
+    const updatedModal = { ...modals[modal], show: false };
+    setModals({ ...modals, [modal]: updatedModal });
   }
 
   const handleFileClick = (e, section, key) => {
     if (e.target.value !== "") {
       e.preventDefault();
       e.target.value = "";
-      const updatedSection = { ...data[key], [key]: "" };
-      const updatedData = { ...data, [e.target.dataset.section]: updatedSection };
+      const updatedSection = { ...data[section], [key]: "" };
+      const updatedData = { ...data, [section]: updatedSection };
       setData(updatedData);
     }
+  }
+
+
+  function toggleModalShow(modal) {
+    const newShowVal = !modals[modal].show
+    const updatedModal = { ...modals[modal], show: newShowVal };
+    setModals({ ...modals, [modal]: updatedModal });
+  }
+
+  function handleModalCreateClick(section = "", id = uuid()) {
+    const updatedSection = {
+      ...data[section], [id]: modals[section].values
+    };
+    setData({ ...data, [section]: updatedSection });
+    document.getElementById(`${section}-form`).reset();
+    toggleModalShow(section);
   }
 
   return (
@@ -112,16 +128,17 @@ function App() {
                 <Textarea value={data.basics.summary} onChange={handleInputChange} sectionKey="summary" section="basics" className="col-span-2" label="Summary" />
               </div>
             </fieldset>
-            <fieldset>
-              <Legend content="Experience" />
-              <Button className="mx-auto" content="+ Add new item" variant="outline" />
-            </fieldset>
           </form>
+          <fieldset>
+            <Legend content="Experience" />
+            <List items={data.experience} />
+            <Button className="mx-auto" content="+ Add new item" variant="outline" onClick={() => toggleModalShow("experience")} />
+          </fieldset>
         </div>
         <Resume basics={data.basics} />
       </div>
-      <Modal values={modals.experience} show={modals.experience.show} onClose={handleCloseModalClick} section="experience" sectionId={modals.experience.id} onChange={handleModalInputChange} />
-      <Modal values={modals.education} show={modals.education.show} onClose={handleCloseModalClick} sectionId={modals.education.id} />
+      <Modal values={modals.experience.values} show={modals.experience.show} onClose={handleCloseModalClick} section="experience" sectionId={modals.experience.id} onChange={handleModalInputChange} sectionKeys={["company", "position", "date", "location", "website", "summary"]} onCreate={handleModalCreateClick} />
+      {/* <Modal values={modals.education.values} show={modals.education.show} onClose={handleCloseModalClick} sectionId={modals.education.id} sectionKeys={}/> */}
     </>
   )
 }
