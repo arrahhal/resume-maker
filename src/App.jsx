@@ -26,27 +26,21 @@ function App() {
 
   const initModals = {
     experience: {
-      show: true,
-      values: {
-        company: "",
-        position: "",
-        date: "",
-        location: "",
-        website: "",
-        summary: "",
-      }
+      company: "",
+      position: "",
+      date: "",
+      location: "",
+      website: "",
+      summary: "",
     },
     education: {
-      show: false,
-      values: {
-        institution: "",
-        score: "",
-        areaOfStudy: "",
-        typeOfStudy: "",
-        date: "",
-        website: "",
-        summary: "",
-      }
+      institution: "",
+      score: "",
+      areaOfStudy: "",
+      typeOfStudy: "",
+      date: "",
+      website: "",
+      summary: "",
     }
   }
 
@@ -73,16 +67,23 @@ function App() {
 
   }
 
-  // TODO: modal state not changed after reset the form
   const handleModalInputChange = (value, section, key) => {
-    const updated = { ...modals[section], values: { ...modals[section].values, [key]: value } };
+    const updated = { ...modals[section], [key]: value };
     setModals({ ...modals, [section]: updated });
-  };
-
-  const handleCloseModalClick = (modal) => {
-    const updatedModal = { ...modals[modal], show: false };
-    setModals({ ...modals, [modal]: updatedModal });
   }
+
+  function resetModal(modal) {
+    const updatedVals = { ...modals[modal] };
+    Object.keys(updatedVals).forEach(key => {
+      updatedVals[key] = "";
+    })
+    setModals({ ...modals, [modal]: updatedVals });
+  }
+
+  // const hideModal = (modal) => {
+  //   const updatedModal = { ...modals[modal], show: false };
+  //   setModals({ ...modals, [modal]: updatedModal });
+  // }
 
   const handleFileClick = (e, section, key) => {
     if (e.target.value !== "") {
@@ -95,19 +96,17 @@ function App() {
   }
 
 
-  function toggleModalShow(modal) {
-    const newShowVal = !modals[modal].show
-    const updatedModal = { ...modals[modal], show: newShowVal };
-    setModals({ ...modals, [modal]: updatedModal });
-  }
+  // function showModal(modal) {
+  //   const updatedMod = { ...modals[modal] };
+  //   setModals({ ...modals, [modal]: updatedMod });
+  // }
 
   function handleModalCreateClick(section = "", id = uuid()) {
     const updatedSection = {
-      ...data[section], [id]: modals[section].values
+      ...data[section], [id]: modals[section]
     };
     setData({ ...data, [section]: updatedSection });
     document.getElementById(`${section}-form`).reset();
-    toggleModalShow(section);
   }
 
   return (
@@ -132,13 +131,12 @@ function App() {
           <fieldset>
             <Legend content="Experience" />
             <List items={data.experience} />
-            <Button className="mx-auto" content="+ Add new item" variant="outline" onClick={() => toggleModalShow("experience")} />
+            <Button className="mx-auto" content="+ Add new item" variant="outline" onClick={() => { }} />
           </fieldset>
         </div>
         <Resume basics={data.basics} />
       </div>
-      <Modal values={modals.experience.values} show={modals.experience.show} onClose={handleCloseModalClick} section="experience" sectionId={modals.experience.id} onChange={handleModalInputChange} sectionKeys={["company", "position", "date", "location", "website", "summary"]} onCreate={handleModalCreateClick} />
-      {/* <Modal values={modals.education.values} show={modals.education.show} onClose={handleCloseModalClick} sectionId={modals.education.id} sectionKeys={}/> */}
+      <Modal values={modals.experience} onClose={() => { }} section="experience" onChange={handleModalInputChange} onCreate={() => handleModalCreateClick("experience")} onReset={(() => resetModal("experience"))} />
     </>
   )
 }
