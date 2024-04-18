@@ -44,7 +44,13 @@ function App() {
     }
   }
 
+  const initModalsShow = {
+    experience: false,
+    education: false,
+  }
+
   const [modals, setModals] = useState(initModals);
+  const [modalsShow, setModalsShow] = useState(initModalsShow);
 
   const handleInputChange = (value, section, key) => {
 
@@ -80,11 +86,6 @@ function App() {
     setModals({ ...modals, [modal]: updatedVals });
   }
 
-  // const hideModal = (modal) => {
-  //   const updatedModal = { ...modals[modal], show: false };
-  //   setModals({ ...modals, [modal]: updatedModal });
-  // }
-
   const handleFileClick = (e, section, key) => {
     if (e.target.value !== "") {
       e.preventDefault();
@@ -96,10 +97,14 @@ function App() {
   }
 
 
-  // function showModal(modal) {
-  //   const updatedMod = { ...modals[modal] };
-  //   setModals({ ...modals, [modal]: updatedMod });
-  // }
+  const showModal = (modal) => {
+    setModalsShow({ ...modalsShow, [modal]: true });
+  }
+
+
+  const hideModal = (modal) => {
+    setModalsShow({ ...modalsShow, [modal]: false });
+  }
 
   function handleModalCreateClick(section = "", id = uuid()) {
     const updatedSection = {
@@ -107,6 +112,7 @@ function App() {
     };
     setData({ ...data, [section]: updatedSection });
     document.getElementById(`${section}-form`).reset();
+    hideModal(section);
   }
 
   return (
@@ -131,12 +137,12 @@ function App() {
           <fieldset>
             <Legend content="Experience" />
             <List items={data.experience} />
-            <Button className="mx-auto" content="+ Add new item" variant="outline" onClick={() => { }} />
+            <Button className="mx-auto" content="+ Add new item" variant="outline" onClick={() => showModal("experience")} />
           </fieldset>
         </div>
         <Resume basics={data.basics} />
       </div>
-      <Modal values={modals.experience} onClose={() => { }} section="experience" onChange={handleModalInputChange} onCreate={() => handleModalCreateClick("experience")} onReset={(() => resetModal("experience"))} />
+      <Modal show={modalsShow.experience} values={modals.experience} onClose={hideModal} section="experience" onChange={handleModalInputChange} onCreate={() => handleModalCreateClick("experience")} onReset={(() => resetModal("experience"))} />
     </>
   )
 }
