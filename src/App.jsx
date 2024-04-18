@@ -70,7 +70,6 @@ function App() {
       };
       reader.readAsDataURL(file);
     }
-
   }
 
   const handleModalInputChange = (value, section, key) => {
@@ -107,11 +106,13 @@ function App() {
   }
 
   function handleModalCreateClick(section = "", id = uuid()) {
+    const formEl = document.getElementById(`${section}-form`);
+    if (!formEl.reportValidity()) return;
     const updatedSection = {
       ...data[section], [id]: modals[section]
     };
     setData({ ...data, [section]: updatedSection });
-    document.getElementById(`${section}-form`).reset();
+    formEl.reset();
     hideModal(section);
   }
 

@@ -9,7 +9,7 @@ function ModalForm({ content, id, title, onClose, section, onCreate, onReset }) 
       </div>
       {content}
       <div className="flex justify-end">
-        <Button content="create" variant="primary" className="ms-auto" onClick={onCreate} />
+        <Button type="button" content="create" variant="primary" className="ms-auto" onClick={onCreate} />
       </div>
     </form>
   )
@@ -21,16 +21,16 @@ function ModalLayer() {
   )
 }
 
-function ExpFields({ values, onChange }) {
+function ExpFields({ values, onChange, section }) {
 
   return (
     <div className="grid grid-cols-2 pb-4 gap-4 border-b border-black">
-      <Input id="input-exp-company" label="Company" section="experience" sectionKey="company" onChange={onChange} value={values.company} />
-      <Input id="input-exp-position" label="Position" section="experience" sectionKey="position" onChange={onChange} value={values.position} />
-      <Input id="input-exp-date" label="Date or Date Range" section="experience" sectionKey="date" onChange={onChange} value={values.date} />
-      <Input id="input-exp-location" label="Location" section="experience" sectionKey="location" onChange={onChange} value={values.location} />
-      <Input id="input-exp-website" label="Website" className="col-span-2" section="experience" sectionKey="website" onChange={onChange} value={values.website} />
-      <Textarea id="input-exp-summary" label="Summary" className="col-span-2" section="experience" sectionKey="summary" onChange={onChange} value={values.summary} />
+      <Input id="input-exp-company" label="Company" section={section} sectionKey="company" onChange={onChange} value={values.company} required />
+      <Input id="input-exp-position" label="Position" section={section} sectionKey="position" onChange={onChange} value={values.position} />
+      <Input id="input-exp-date" label="Date or Date Range" section={section} sectionKey="date" onChange={onChange} value={values.date} />
+      <Input id="input-exp-location" label="Location" section={section} sectionKey="location" onChange={onChange} value={values.location} />
+      <Input id="input-exp-website" type="url" label="Website" className="col-span-2" section={section} sectionKey="website" onChange={onChange} value={values.website} />
+      <Textarea id="input-exp-summary" label="Summary" className="col-span-2" section={section} sectionKey="summary" onChange={onChange} value={values.summary} />
     </div>
   )
 }
