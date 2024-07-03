@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function List({ items = [] }) {
+export default function List({ items = [], onReorder }) {
   const initDnD = { // Drag and Drop
     draggedFrom: null,
     draggedCurrent: null,
@@ -11,8 +11,8 @@ export default function List({ items = [] }) {
 
   const onDragStart = (index) => {
     setDnD({
-      draggedFrom: { index },
-      draggedCurrent: { index },
+      draggedFrom: index,
+      draggedCurrent: index,
       draggedTo: null,
       isDragging: true,
     });
@@ -26,7 +26,20 @@ export default function List({ items = [] }) {
     }
   }
 
+  const getFromAndToIndecies = () => {
+    let [from, to] = [DnD.draggedFrom, DnD.draggedTo];
+    if (DnD.draggedCurrent === DnD.draggedFrom || from === to) {
+      return [from, from];
+    }
+    if (from < to) {
+      to -= 1;
+    }
+    return [from, to];
+  }
+
   const onDragEnd = () => {
+    const [from, to] = getFromAndToIndecies();
+    onReorder(from, to);
     setDnD({
       draggedFrom: null,
       draggedTo: null,

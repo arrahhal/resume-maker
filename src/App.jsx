@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 // import { v4 as uuid } from 'uuid';
 import { Input, Button, Textarea, AvatarInput } from './components/Inputs';
 import Legend from "./components/Styled";
@@ -149,6 +149,16 @@ function App() {
     hideModal(section);
   }
 
+  const handleChangeItemIndex = useCallback((section, from, to) => {
+    const updated = [...data[section]];
+    const item = updated.splice(from, 1)[0];
+    updated.splice(to, 0, item);
+    setData({
+      ...data,
+      [section]: updated
+    });
+  });
+
   return (
     <>
       <div className="grid grid-flow-col grid-cols-2 gap-4 w-[80rem] mx-auto max-w-full px-2">
@@ -161,6 +171,7 @@ function App() {
                 <Input onChange={handleInputChange} value={data.basics.fullName} id="full-name" label="Full Name" sectionKey="fullName" section="basics" />
                 <Input value={data.basics.headline} onChange={handleInputChange} sectionKey="headline" section="basics" className="col-span-2" id="headline" label="Headline" />
                 <Input value={data.basics.email} onChange={handleInputChange} sectionKey="email" section="basics" id="email" label="Email" placeholder="you@example.com" />
+
                 <Input value={data.basics.phone} onChange={handleInputChange} sectionKey="phone" section="basics" id="phone" label="Phone Number" placeholder="+996 002 141 221" />
                 <Input value={data.basics.website} onChange={handleInputChange} sectionKey="website" section="basics" id="website" label="Website" placeholder="yoursite.com" />
                 <Input value={data.basics.address} onChange={handleInputChange} sectionKey="address" section="basics" id="address" label="Address" placeholder="China/Beijing" />
@@ -170,7 +181,7 @@ function App() {
           </form>
           <fieldset>
             <Legend content="Experience" />
-            <List items={data.experience} />
+            <List items={data.experience} onReorder={(from, to) => handleChangeItemIndex("experience", from, to)} />
             <Button className="mx-auto" content="+ Add new item" variant="outline" onClick={() => showModal("experience")} />
           </fieldset>
         </div>
