@@ -5,6 +5,7 @@ function Label({ forId, label }) {
 }
 export function Input({ id, label, className = "", type = "text", placeholder, value, onChange, sectionKey, section, required = false }) {
 
+  // TODO: validate the input and show error message
   return (
     <div className={"w-full".concat(" ", className)}>
       <Label forId={id} label={label} />

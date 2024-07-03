@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { v4 as uuid } from 'uuid';
+// import { v4 as uuid } from 'uuid';
 import { Input, Button, Textarea, AvatarInput } from './components/Inputs';
 import Legend from "./components/Styled";
 import Resume from './components/Resume';
@@ -17,8 +17,41 @@ const init = {
     address: "Moon/Mars and whats beyond",
     summary: "bla bla, such and such, this should be a tow to three rows paragraph describing who are you and what are the things your good at. bla bla, such and such, this should be a tow to three rows paragraph describing who are you and what are the things your good at.",
   },
-  experience: {},
-  education: {},
+  experience: [
+    {
+      company: "comp",
+      position: "pos",
+      date: "date",
+      location: "hama",
+      website: "https://google.com",
+      summary: "jfiaj",
+    },
+    {
+      company: "comp1",
+      position: "pos1",
+      date: "date1",
+      location: "hama1",
+      website: "https://google.com",
+      summary: "jfiaj1",
+    },
+    {
+      company: "comp2",
+      position: "pos2",
+      date: "date2",
+      location: "hama2",
+      website: "https://google.com",
+      summary: "jfiaj2",
+    },
+    {
+      company: "comp3",
+      position: "pos3",
+      date: "date3",
+      location: "hama3",
+      website: "https://google.com",
+      summary: "jfiaj3",
+    },
+  ],
+  education: [],
 }
 
 function App() {
@@ -105,12 +138,12 @@ function App() {
     setModalsShow({ ...modalsShow, [modal]: false });
   }
 
-  function handleModalCreateClick(section = "", id = uuid()) {
+  function handleModalCreateClick(section = "") {
     const formEl = document.getElementById(`${section}-form`);
     if (!formEl.reportValidity()) return;
-    const updatedSection = {
-      ...data[section], [id]: modals[section]
-    };
+    const updatedSection = [
+      ...data[section], modals[section]
+    ];
     setData({ ...data, [section]: updatedSection });
     formEl.reset();
     hideModal(section);
