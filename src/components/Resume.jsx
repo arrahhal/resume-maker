@@ -28,7 +28,7 @@ function Title({ content }) {
   return <p className="font-bold font-mono">{content}</p>
 }
 
-export default function Resume({ basics }) {
+export default function Resume({ basics, experience } ) {
   return (
     <div className="p-4 text-sm border flex flex-col gap-4">
       <div className="flex gap-2 pb-4 border-b border-black">
@@ -48,10 +48,12 @@ export default function Resume({ basics }) {
           </div>
         </div>
       </div>
-      <div>
-        <Title content="Summary" />
-        <p>{basics.summary}</p>
-      </div>
+      {basics.summary && (
+        <div>
+          <Title content="Summary" />
+          <p className="whitespace-pre-line">{basics.summary}</p>
+        </div>
+      )}
     </div>
   )
 }
