@@ -29,7 +29,7 @@ function ExpFields({ values, onChange, section }) {
       <Input id="input-exp-position" label="Position" section={section} sectionKey="position" onChange={onChange} value={values.position} />
       <Input id="input-exp-date" label="Date or Date Range" section={section} sectionKey="date" onChange={onChange} value={values.date} />
       <Input id="input-exp-location" label="Location" section={section} sectionKey="location" onChange={onChange} value={values.location} />
-      <Input id="input-exp-website" type="url" label="Website" className="col-span-2" section={section} sectionKey="website" onChange={onChange} value={values.website} />
+      <Input id="input-exp-website" type="url" label="Website" className="col-span-2" section={section} sectionKey="website" onChange={onChange} value={values.website} placeholder="https://" />
       <Textarea id="input-exp-summary" label="Summary" className="col-span-2" section={section} sectionKey="summary" onChange={onChange} value={values.summary} />
     </div>
   )

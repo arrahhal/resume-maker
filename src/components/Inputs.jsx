@@ -3,11 +3,11 @@ import { UploadIcon, DeleteIcon, CloseIcon } from './Icons';
 function Label({ forId, label }) {
   return <label className="block font-medium text-sm mb-1" htmlFor={forId}>{label}</label>
 }
-export function Input({ id, label, className = "", type = "text", placeholder, value, onChange, sectionKey, section, required = false }) {
 
+export function Input({ id, label, className = "", type = "text", placeholder, value, onChange, sectionKey, section, required = false }) {
   // TODO: validate the input and show error message
   return (
-    <div className={"w-full".concat(" ", className)}>
+    <div className={`w-full ${className}`}>
       <Label forId={id} label={label} />
       <input type={type} id={id} placeholder={placeholder} className="block w-full text-sm text-gray-700 border p-1 mb-0.5" value={value} onChange={(e) => onChange(e.target.value, section, sectionKey)} required={required} />
     </div>
