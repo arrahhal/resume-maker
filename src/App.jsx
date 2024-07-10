@@ -19,36 +19,19 @@ const init = {
   },
   experience: [
     {
-      company: "comp",
-      position: "pos",
-      date: "date",
-      location: "hama",
-      website: "https://google.com",
-      summary: "jfiaj",
+      company: "Google",
+      position: "Software Engineer",
+      date: "2023-7-1",
+      location: "California",
+      website: "https://mail.google.com",
+      summary: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima minus quidem reprehenderit voluptatibus, consequuntur perspiciatis! Tenetur aut et magnam, maiores reiciendis soluta perspiciatis enim sed corporis.Perspiciatis totam culpa consectetur.",
     },
     {
-      company: "comp1",
-      position: "pos1",
-      date: "date1",
-      location: "hama1",
-      website: "https://google.com",
-      summary: "jfiaj1",
-    },
-    {
-      company: "comp2",
-      position: "pos2",
-      date: "date2",
-      location: "hama2",
-      website: "https://google.com",
-      summary: "jfiaj2",
-    },
-    {
-      company: "comp3",
-      position: "pos3",
-      date: "date3",
-      location: "hama3",
-      website: "https://google.com",
-      summary: "jfiaj3",
+      company: "Facebook",
+      position: "Software Engineer",
+      date: "2020-6-1",
+      location: "Mars",
+      summary: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima minus quidem reprehenderit voluptatibus, consequuntur perspiciatis! Tenetur aut et magnam, maiores reiciendis soluta perspiciatis enim sed corporis.Perspiciatis totam culpa consectetur.",
     },
   ],
   education: [],
@@ -150,6 +133,8 @@ function App() {
   }
 
   const handleChangeItemIndex = useCallback((section, from, to) => {
+    // WARN: the rest of the implementation is in components/List.jsx
+    // i should merge them and put all logic here instead
     const updated = [...data[section]];
     const item = updated.splice(from, 1)[0];
     updated.splice(to, 0, item);
@@ -185,7 +170,7 @@ function App() {
             <Button className="mx-auto" content="+ Add new item" variant="outline" onClick={() => showModal("experience")} />
           </fieldset>
         </div>
-        <Resume basics={data.basics} />
+        <Resume basics={data.basics} experience={data.experience} />
       </div>
       <Modal show={modalsShow.experience} values={modals.experience} onClose={hideModal} section="experience" onChange={handleModalInputChange} onCreate={() => handleModalCreateClick("experience")} onReset={(() => resetModal("experience"))} />
     </>
