@@ -165,6 +165,13 @@ function App() {
     setData({ ...data, [section]: updatedSection });
     hideModal(section);
   });
+  const handleOnDeleteEntry = useCallback((id, section) => {
+    const targetIdx = data[section].map(entry => entry.id).indexOf(id);
+    const updatedSection = data[section];
+    updatedSection.splice(targetIdx, 1);
+    setData({ ...data, [section]: updatedSection });
+    hideModal(section);
+  });
 
   return (
     <>
@@ -194,7 +201,7 @@ function App() {
         </div>
         <Resume basics={data.basics} experience={data.experience} />
       </div>
-      <Modal show={modalsShow.experience} values={modals.experience} onClose={hideModal} section="experience" onChange={handleModalInputChange} onCreate={() => handleModalCreateClick("experience")} onReset={(() => resetModal("experience"))} editForm={editModals} onUpdate={handleOnUpdateEntry} />
+      <Modal show={modalsShow.experience} values={modals.experience} onClose={hideModal} section="experience" onChange={handleModalInputChange} onCreate={() => handleModalCreateClick("experience")} onReset={(() => resetModal("experience"))} editForm={editModals} onUpdate={handleOnUpdateEntry} onDelete={handleOnDeleteEntry} />
     </>
   )
 }
