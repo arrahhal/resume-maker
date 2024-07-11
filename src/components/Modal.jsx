@@ -1,6 +1,6 @@
 import { Button, Input, Textarea } from "./Inputs"
 
-function ModalForm({ content, id, title, onClose, section, onCreate, onReset }) {
+function ModalForm({ content, id, title, onClose, section, onCreate, onReset, editForm, onUpdate, onDelete, entryId }) {
   return (
     <form id={id} className="grid grid-rows-[min-content,1fr,min-content] py-4 px-4 text-gray-800 absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 min-w-96 min-h-48 border border-gray-400 bg-white shadow-md rounded z-10 gap-3" onReset={onReset}>
       <div className="flex justify-between">
@@ -8,8 +8,16 @@ function ModalForm({ content, id, title, onClose, section, onCreate, onReset }) 
         <Button variant="close" onClick={() => onClose(section)} />
       </div>
       {content}
-      <div className="flex justify-end">
-        <Button type="button" content="create" variant="primary" className="ms-auto" onClick={onCreate} />
+      <div className="flex justify-end gap-2">
+        {editForm &&
+          <>
+            <Button content="delete" variant="danger" onClick={() => onDelete(entryId, section)} />
+            <Button content="update" variant="primary" onClick={() => onUpdate(entryId, section)} />
+          </>
+        }
+        {!editForm &&
+          <Button content="create" variant="primary" onClick={onCreate} />
+        }
       </div>
     </form>
   )
@@ -51,11 +59,11 @@ function EduFields({ values, section = "education", sectionKeys, onChange }) {
 }
 
 
-export default function Modal({ variant = "experience", title = "Create a new item", section, show = true, onClose, onChange, values, sectionKeys, onCreate, onReset }) {
+export default function Modal({ variant = "experience", title = "Create a new item", section, show = true, onClose, onChange, values, sectionKeys, onCreate, onReset, editForm, onUpdate, onDelete }) {
   const fields = variant === "experience" ? <ExpFields onChange={onChange} section={section} values={values} /> : <EduFields values={values} keys={sectionKeys} section={section} />;
   return (
     <div className={show ? "" : "hidden"}>
-      <ModalForm content={fields} id="experience-form" title={title} onClose={onClose} section={section} onCreate={onCreate} onReset={onReset} />
+      <ModalForm content={fields} id="experience-form" title={title} onClose={onClose} section={section} onCreate={onCreate} onReset={onReset} editForm={editForm} onDelete={onDelete} onUpdate={onUpdate} entryId={values.id} />
       <ModalLayer />
     </div>
   )

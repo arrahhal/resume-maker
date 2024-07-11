@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-// import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { Input, Button, Textarea, AvatarInput } from './components/Inputs';
 import Legend from "./components/Styled";
 import Resume from './components/Resume';
@@ -25,6 +25,7 @@ const init = {
       location: "California",
       website: "https://mail.google.com",
       summary: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima minus quidem reprehenderit voluptatibus, consequuntur perspiciatis! Tenetur aut et magnam, maiores reiciendis soluta perspiciatis enim sed corporis.Perspiciatis totam culpa consectetur.",
+      id: uuid(),
     },
     {
       company: "Facebook",
@@ -32,6 +33,7 @@ const init = {
       date: "2020-6-1",
       location: "Mars",
       summary: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minima minus quidem reprehenderit voluptatibus, consequuntur perspiciatis! Tenetur aut et magnam, maiores reiciendis soluta perspiciatis enim sed corporis.Perspiciatis totam culpa consectetur.",
+      id: uuid(),
     },
   ],
   education: [],
@@ -67,6 +69,7 @@ function App() {
 
   const [modals, setModals] = useState(initModals);
   const [modalsShow, setModalsShow] = useState(initModalsShow);
+  const [editModals, setEditModals] = useState(false);
 
   const handleInputChange = (value, section, key) => {
 
@@ -119,13 +122,17 @@ function App() {
 
   const hideModal = (modal) => {
     setModalsShow({ ...modalsShow, [modal]: false });
+    if (editModals) {
+      resetModal(modal);
+    }
+    setEditModals(false);
   }
 
   function handleModalCreateClick(section = "") {
     const formEl = document.getElementById(`${section}-form`);
     if (!formEl.reportValidity()) return;
     const updatedSection = [
-      ...data[section], modals[section]
+      ...data[section], { ...modals[section], id: uuid() }
     ];
     setData({ ...data, [section]: updatedSection });
     formEl.reset();
@@ -142,6 +149,21 @@ function App() {
       ...data,
       [section]: updated
     });
+  });
+
+  const handlListItemClick = useCallback((id, section) => {
+    const targetIdx = data[section].map(entry => entry.id).indexOf(id);
+    setModals({ ...modals, [section]: { ...data[section][targetIdx] } });
+    setEditModals(true);
+    showModal(section);
+  });
+
+  const handleOnUpdateEntry = useCallback((id, section) => {
+    const targetIdx = data[section].map(entry => entry.id).indexOf(id);
+    const updatedSection = data[section];
+    updatedSection[targetIdx] = { ...modals[section], id };
+    setData({ ...data, [section]: updatedSection });
+    hideModal(section);
   });
 
   return (
@@ -166,13 +188,13 @@ function App() {
           </form>
           <fieldset>
             <Legend content="Experience" />
-            <List items={data.experience} onReorder={(from, to) => handleChangeItemIndex("experience", from, to)} />
+            <List items={data.experience} onReorder={(from, to) => handleChangeItemIndex("experience", from, to)} onItemClick={handlListItemClick} section="experience" />
             <Button className="mx-auto" content="+ Add new item" variant="outline" onClick={() => showModal("experience")} />
           </fieldset>
         </div>
         <Resume basics={data.basics} experience={data.experience} />
       </div>
-      <Modal show={modalsShow.experience} values={modals.experience} onClose={hideModal} section="experience" onChange={handleModalInputChange} onCreate={() => handleModalCreateClick("experience")} onReset={(() => resetModal("experience"))} />
+      <Modal show={modalsShow.experience} values={modals.experience} onClose={hideModal} section="experience" onChange={handleModalInputChange} onCreate={() => handleModalCreateClick("experience")} onReset={(() => resetModal("experience"))} editForm={editModals} onUpdate={handleOnUpdateEntry} />
     </>
   )
 }

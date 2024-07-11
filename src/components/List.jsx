@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function List({ items = [], onReorder }) {
+export default function List({ items = [], onReorder, onItemClick, section }) {
   const initDnD = { // Drag and Drop
     draggedFrom: null,
     draggedCurrent: null,
@@ -27,7 +27,8 @@ export default function List({ items = [], onReorder }) {
   }
 
   const getFromAndToIndecies = () => {
-    let [from, to] = [DnD.draggedFrom, DnD.draggedTo];
+    const from = DnD.draggedFrom;
+    let to = DnD.draggedTo;
     if (DnD.draggedCurrent === DnD.draggedFrom || from === to) {
       return [from, from];
     }
@@ -49,7 +50,7 @@ export default function List({ items = [], onReorder }) {
 
   const list = [];
   items.forEach((vals, idx) => {
-    list.push(<ListItem id={idx} title={vals.company} desc={vals.position} index={idx} onDragStart={onDragStart} onDragEnd={onDragEnd} dragTo={DnD.draggedTo} dragCurrent={DnD.draggedCurrent} onDragOver={onDragOver} />);
+    list.push(<ListItem id={vals.id} title={vals.company} desc={vals.position} index={idx} onDragStart={onDragStart} onDragEnd={onDragEnd} dragTo={DnD.draggedTo} dragCurrent={DnD.draggedCurrent} onDragOver={onDragOver} onClick={(id) => onItemClick(id, section)} />);
   });
   return (
     <div className={`flex justify-center flex-col gap-1 ${DnD.isDragging ? "text-gray-300" : ""}`}>
