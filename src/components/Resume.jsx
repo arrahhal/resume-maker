@@ -48,7 +48,9 @@ function Item({ title, subtitle, date, location, url, body }) {
             <p className="mb-1">{location}</p>
           </div>
         </div>
-        <ContactEntry iconName="website" content={url} url={url} />
+        {url &&
+          <ContactEntry iconName="website" content={url} url={url} />
+        }
       </div>
       <div>
         <p>{body}</p>
@@ -60,7 +62,9 @@ function Item({ title, subtitle, date, location, url, body }) {
 function List({ content = [] }) {
   return (
     <div>
-      <Title content="Experience" />
+      {content.length !== 0 &&
+        <Title content="Experience" />
+      }
       {content.map(entry =>
         <Item title={entry.company} subtitle={entry.position} url={entry.website} date={entry.date} location={entry.location} body={entry.summary} />
       )}
