@@ -1,6 +1,18 @@
 import { useState } from "react";
+import Legend from "./Styled"
+import { Button } from "./Inputs"
 
-export default function List({ items = [], onReorder, onItemClick, section }) {
+export default function ListFieldset({ legendContent, items, onReorder, onItemClick, section, onClick }) {
+  return (
+    <fieldset>
+      <Legend content={legendContent} />
+      <List items={items} onReorder={onReorder} onItemClick={onItemClick} section={section} />
+      <Button className="mx-auto" content="+ Add new item" variant="outline" onClick={onClick} />
+    </fieldset>
+  )
+}
+
+function List({ items = [], onReorder, onItemClick, section }) {
   const initDnD = { // Drag and Drop
     draggedFrom: null,
     draggedCurrent: null,
@@ -40,7 +52,7 @@ export default function List({ items = [], onReorder, onItemClick, section }) {
 
   const onDragEnd = () => {
     const [from, to] = getFromAndToIndecies();
-    onReorder(from, to);
+    onReorder(section, from, to);
     setDnD({
       draggedFrom: null,
       draggedTo: null,
@@ -50,7 +62,7 @@ export default function List({ items = [], onReorder, onItemClick, section }) {
 
   const list = [];
   items.forEach((vals, idx) => {
-    list.push(<ListItem id={vals.id} title={vals.company} desc={vals.position} index={idx} onDragStart={onDragStart} onDragEnd={onDragEnd} dragTo={DnD.draggedTo} dragCurrent={DnD.draggedCurrent} onDragOver={onDragOver} onClick={(id) => onItemClick(id, section)} />);
+    list.push(<ListItem id={vals.id} title={section === "experience" ? vals.company : vals.institution} desc={section === "experience" ? vals.position : vals.typeOfStudy} index={idx} onDragStart={onDragStart} onDragEnd={onDragEnd} dragTo={DnD.draggedTo} dragCurrent={DnD.draggedCurrent} onDragOver={onDragOver} onClick={(id) => onItemClick(id, section)} />);
   });
   return (
     <div className={`flex justify-center flex-col gap-1 ${DnD.isDragging ? "text-gray-300" : ""}`}>

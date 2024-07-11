@@ -1,10 +1,10 @@
 import { useCallback, useState } from "react";
 import { v4 as uuid } from 'uuid';
-import { Input, Button, Textarea, AvatarInput } from './components/Inputs';
+import { Input, Textarea, AvatarInput } from './components/Inputs';
 import Legend from "./components/Styled";
 import Resume from './components/Resume';
 import Modal from "./components/Modal";
-import List from "./components/List";
+import ListFieldset from "./components/List";
 
 const init = {
   basics: {
@@ -36,7 +36,28 @@ const init = {
       id: uuid(),
     },
   ],
-  education: [],
+  education: [
+    {
+      institution: "Massachusetts Institute of Technology",
+      score: "3.9 GPA",
+      areaOfStudy: "Computer Science",
+      typeOfStudy: "Bachelor of Science",
+      date: "2016-9-1 to 2020-6-1",
+      website: "http://www.mit.edu",
+      summary: "Studied various computer science subjects including algorithms, data structures, and software engineering. Graduated with honors.",
+      id: uuid(),
+    },
+    {
+      institution: "Stanford University",
+      score: "4.0 GPA",
+      areaOfStudy: "Artificial Intelligence",
+      typeOfStudy: "Master of Science",
+      date: "2020-9-1 to 2022-6-1",
+      website: "http://www.stanford.edu",
+      summary: "Focused on advanced topics in artificial intelligence, machine learning, and neural networks. Completed a thesis on deep learning applications.",
+      id: uuid(),
+    },
+  ],
 }
 
 function App() {
@@ -151,7 +172,7 @@ function App() {
     });
   });
 
-  const handlListItemClick = useCallback((id, section) => {
+  const handleListItemClick = useCallback((id, section) => {
     const targetIdx = data[section].map(entry => entry.id).indexOf(id);
     setModals({ ...modals, [section]: { ...data[section][targetIdx] } });
     setEditModals(true);
@@ -165,6 +186,7 @@ function App() {
     setData({ ...data, [section]: updatedSection });
     hideModal(section);
   });
+
   const handleOnDeleteEntry = useCallback((id, section) => {
     const targetIdx = data[section].map(entry => entry.id).indexOf(id);
     const updatedSection = data[section];
@@ -193,15 +215,13 @@ function App() {
               </div>
             </fieldset>
           </form>
-          <fieldset>
-            <Legend content="Experience" />
-            <List items={data.experience} onReorder={(from, to) => handleChangeItemIndex("experience", from, to)} onItemClick={handlListItemClick} section="experience" />
-            <Button className="mx-auto" content="+ Add new item" variant="outline" onClick={() => showModal("experience")} />
-          </fieldset>
+          <ListFieldset legendContent="Experience" items={data.experience} onReorder={handleChangeItemIndex} onItemClick={handleListItemClick} section="experience" onClick={() => showModal("experience")} />
+          <ListFieldset legendContent="Education" items={data.education} onReorder={handleChangeItemIndex} onItemClick={handleListItemClick} section="education" onClick={() => showModal("education")} />
         </div>
-        <Resume basics={data.basics} experience={data.experience} />
+        <Resume basics={data.basics} experience={data.experience} education={data.education} />
       </div>
-      <Modal show={modalsShow.experience} values={modals.experience} onClose={hideModal} section="experience" onChange={handleModalInputChange} onCreate={() => handleModalCreateClick("experience")} onReset={(() => resetModal("experience"))} editForm={editModals} onUpdate={handleOnUpdateEntry} onDelete={handleOnDeleteEntry} />
+      <Modal variant="experience" show={modalsShow.experience} values={modals.experience} onClose={hideModal} section="experience" onChange={handleModalInputChange} onCreate={() => handleModalCreateClick("experience")} onReset={(() => resetModal("experience"))} editForm={editModals} onUpdate={handleOnUpdateEntry} onDelete={handleOnDeleteEntry} />
+      <Modal variant="education" show={modalsShow.education} values={modals.education} onClose={hideModal} section="education" onChange={handleModalInputChange} onCreate={() => handleModalCreateClick("education")} onReset={(() => resetModal("education"))} editForm={editModals} onUpdate={handleOnUpdateEntry} onDelete={handleOnDeleteEntry} />
     </>
   )
 }

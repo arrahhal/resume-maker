@@ -30,7 +30,6 @@ function ModalLayer() {
 }
 
 function ExpFields({ values, onChange, section }) {
-
   return (
     <div className="grid grid-cols-2 pb-4 gap-4 border-b border-black">
       <Input id="input-exp-company" label="Company" section={section} sectionKey="company" onChange={onChange} value={values.company} required />
@@ -43,27 +42,34 @@ function ExpFields({ values, onChange, section }) {
   )
 }
 
-function EduFields({ values, section = "education", sectionKeys, onChange }) {
-
+function EduFields({ values, onChange, section }) {
   return (
     <div className="grid grid-cols-2 pb-4 gap-4 border-b border-black">
-      <Input id="input-edu-institution" label="Institution" onChange={() => onChange(values.institution, section, sectionKeys[0])} />
-      <Input id="input-edu-type-of-study" label="Type of Study" onChange={() => onChange(values.typeOfStudy, section, sectionKeys[1])} />
-      <Input id="input-edu-area-of-study" label="Area of Study" onChange={() => onChange(values.areaOfStudy, section, sectionKeys[2])} />
-      <Input id="input-edu-score" label="Score" onChange={() => onChange(values.score, section, sectionKeys[3])} />
-      <Input id="input-edu-date" label="Date" className="col-span-2" onChange={() => onChange(values.date, section, sectionKeys[4])} />
-      <Input id="input-edu-website" label="Website" className="col-span-2" onChange={() => onChange(values.website, section, sectionKeys[5])} />
-      <Textarea id="input-edu-summary" label="Summary" className="col-span-2" onChange={() => onChange(values.summary, section, sectionKeys[6])} />
+      <Input id="input-edu-institution" label="Institution" section={section} sectionKey="institution" onChange={onChange} value={values.institution} />
+      <Input id="input-edu-type-of-study" label="Type of Study" section={section} sectionKey="typeOfStudy" onChange={onChange} value={values.typeOfStudy} />
+      <Input id="input-edu-area-of-study" label="Area of Study" section={section} sectionKey="areaOfStudy" onChange={onChange} value={values.areaOfStudy} />
+      <Input id="input-edu-score" label="Score" section={section} sectionKey="score" onChange={onChange} value={values.score} />
+      <Input id="input-edu-date" label="Date" section={section} sectionKey="date" className="col-span-2" onChange={onChange} value={values.date} />
+      <Input id="input-edu-website" label="Website" section={section} sectionKey="website" className="col-span-2" onChange={onChange} value={values.website} />
+      <Textarea id="input-edu-summary" label="Summary" section={section} sectionKey="summary" className="col-span-2" onChange={onChange} value={values.summary} />
     </div>
   )
 }
 
 
-export default function Modal({ variant = "experience", title = "Create a new item", section, show = true, onClose, onChange, values, sectionKeys, onCreate, onReset, editForm, onUpdate, onDelete }) {
-  const fields = variant === "experience" ? <ExpFields onChange={onChange} section={section} values={values} /> : <EduFields values={values} keys={sectionKeys} section={section} />;
+export default function Modal({ variant = "experience", section, show = false, onClose, onChange, values, onCreate, onReset, editForm, onUpdate, onDelete }) {
+  let fields;
+
+  switch (variant) {
+    case "experience": fields = <ExpFields onChange={onChange} section={section} values={values} />;
+      break;
+    case "education": fields = <EduFields values={values} section={section} onChange={onChange} />;
+      break;
+    default: fields = <ExpFields onChange={onChange} section={section} values={values} />;
+  }
   return (
     <div className={show ? "" : "hidden"}>
-      <ModalForm content={fields} id="experience-form" title={title} onClose={onClose} section={section} onCreate={onCreate} onReset={onReset} editForm={editForm} onDelete={onDelete} onUpdate={onUpdate} entryId={values.id} />
+      <ModalForm content={fields} id={`${section}-form`} title={editForm ? "Edit an item" : "Create a new item"} onClose={onClose} section={section} onCreate={onCreate} onReset={onReset} editForm={editForm} onDelete={onDelete} onUpdate={onUpdate} entryId={values.id} />
       <ModalLayer />
     </div>
   )

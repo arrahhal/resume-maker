@@ -66,13 +66,13 @@ function List({ content = [] }) {
         <Title content="Experience" />
       }
       {content.map(entry =>
-        <Item title={entry.company} subtitle={entry.position} url={entry.website} date={entry.date} location={entry.location} body={entry.summary} />
+        <Item title={entry.company ? entry.company : entry.institution} subtitle={entry.position ? entry.position : entry.typeOfStudy} url={entry.website} date={entry.date} location={entry.location ? entry.location : entry.areaOfStudy} body={entry.summary} />
       )}
     </div>
   )
 }
 
-export default function Resume({ basics, experience }) {
+export default function Resume({ basics, experience, education }) {
   return (
     <div className="p-4 text-sm border flex flex-col gap-4">
       <div className="flex gap-2 pb-4 border-b border-black">
@@ -99,6 +99,7 @@ export default function Resume({ basics, experience }) {
         </div>
       )}
       <List content={experience} />
+      <List content={education} />
     </div>
   )
 }
