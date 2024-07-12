@@ -33,9 +33,9 @@ function Title({ content }) {
 }
 
 // i didnt knonw what to call it. i will change this when i need to
-function Item({ title, subtitle, date, location, url, body }) {
+function Item({ title, subtitle, date, additionalInfo, url, body }) {
   return (
-    <div>
+    <div className="mb-2">
       <div className="mb-2">
         <div className="flex mb-1">
           <div>
@@ -45,7 +45,7 @@ function Item({ title, subtitle, date, location, url, body }) {
           <div className="flex-1" />
           <div className="italic">
             <p className="mb-1">{date}</p>
-            <p className="mb-1">{location}</p>
+            <p className="mb-1">{additionalInfo}</p>
           </div>
         </div>
         {url &&
@@ -59,29 +59,52 @@ function Item({ title, subtitle, date, location, url, body }) {
   )
 }
 
-function List({ content = [] }) {
+function List({ content = [], listTitle = "" }) {
   return (
     <div>
-      {content.length !== 0 &&
-        <Title content="Experience" />
-      }
-      {content.map(entry =>
-        <Item title={entry.company ? entry.company : entry.institution} subtitle={entry.position ? entry.position : entry.typeOfStudy} url={entry.website} date={entry.date} location={entry.location ? entry.location : entry.areaOfStudy} body={entry.summary} />
-      )}
+      {content.length !== 0 && <Title content={listTitle} />}
+      {content.map((entry, index) => {
+        if (typeof entry !== 'object') return null;
+        const {
+          company = '',
+          institution = '',
+          position = '',
+          typeOfStudy = '',
+          website = '',
+          date = '',
+          location = '',
+          areaOfStudy = '',
+          summary = ''
+        } = entry;
+        const title = company || institution;
+        const subtitle = position || typeOfStudy;
+        const additionalInfo = location || areaOfStudy;
+        return (
+          <Item
+            key={index}
+            title={title}
+            subtitle={subtitle}
+            url={website}
+            date={date}
+            additionalInfo={additionalInfo}
+            body={summary}
+          />
+        );
+      })}
     </div>
   )
 }
 
 export default function Resume({ basics, experience, education }) {
   return (
-    <div className="p-4 text-sm border flex flex-col gap-4">
+    <div className="p-4 border flex flex-col gap-6 overflow-y-auto">
       <div className="flex gap-2 pb-4 border-b border-black">
         <div className="bg-gray-400 flex items-center justify-center w-20 aspect-square">
           <img className="object-cover w-full h-full" src={basics.picture} alt="avatar" />
         </div>
-        <div className="text-xs flex-1 flex flex-col gap-2 justify-center">
+        <div className="text-sm flex-1 flex flex-col gap-2 justify-center">
           <div>
-            <p className="font-bold text-base">{basics.fullName}</p>
+            <p className="font-bold text-lg">{basics.fullName}</p>
             <p>{basics.headline}</p>
           </div>
           <div className="flex gap-4">
@@ -98,8 +121,8 @@ export default function Resume({ basics, experience, education }) {
           <p className="whitespace-pre-line">{basics.summary}</p>
         </div>
       )}
-      <List content={experience} />
-      <List content={education} />
+      <List content={experience} listTitle="Experience" />
+      <List content={education} listTitle="Education" />
     </div>
   )
 }

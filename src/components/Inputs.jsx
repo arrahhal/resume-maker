@@ -1,7 +1,7 @@
 import { UploadIcon, DeleteIcon, CloseIcon } from './Icons';
 
 function Label({ forId, label }) {
-  return <label className="block font-medium text-sm mb-1" htmlFor={forId}>{label}</label>
+  return <label className="block font-medium mb-1" htmlFor={forId}>{label}</label>
 }
 
 export function Input({ id, label, className = "", type = "text", placeholder, value, onChange, sectionKey, section, required = false }) {
@@ -9,7 +9,7 @@ export function Input({ id, label, className = "", type = "text", placeholder, v
   return (
     <div className={`w-full ${className}`}>
       <Label forId={id} label={label} />
-      <input type={type} id={id} placeholder={placeholder} className="block w-full text-sm text-gray-700 border p-1 mb-0.5" value={value} onChange={(e) => onChange(e.target.value, section, sectionKey)} required={required} />
+      <input type={type} id={id} placeholder={placeholder} className="block w-full text-gray-700 border p-1 mb-0.5" value={value} onChange={(e) => onChange(e.target.value, section, sectionKey)} required={required} />
     </div>
   )
 }
@@ -48,7 +48,7 @@ export function Textarea({ label, className = "", id, value, onChange, sectionKe
   return (
     <div className={className}>
       <Label forId={id} label={label} />
-      <textarea rows="4" className="block p-1 resize-none text-sm text-gray-700 border w-full" id={id} value={value} onChange={(e) => onChange(e.target.value, section, sectionKey)} />
+      <textarea rows="4" className="block p-1 resize-none text-gray-700 border w-full" id={id} value={value} onChange={(e) => onChange(e.target.value, section, sectionKey)} />
     </div>
   )
 }

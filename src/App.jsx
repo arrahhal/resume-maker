@@ -204,28 +204,32 @@ function App() {
 
   return (
     <>
-      <div className="grid grid-flow-col grid-cols-2 gap-4 w-[80rem] mx-auto max-w-full px-2">
-        <div>
-          <form action="">
-            <fieldset>
-              <Legend content="Basics" />
-              <div className="grid grid-cols-2 gap-1 p-2 gap-x-10">
-                <AvatarInput onFileClick={handleFileClick} onFileChange={handleFileChange} onChange={handleInputChange} value={data.basics.picture} id="avatar" label="Picture" placeholder="https://..." sectionKey="picture" section="basics" />
-                <Input onChange={handleInputChange} value={data.basics.fullName} id="full-name" label="Full Name" sectionKey="fullName" section="basics" />
-                <Input value={data.basics.headline} onChange={handleInputChange} sectionKey="headline" section="basics" className="col-span-2" id="headline" label="Headline" />
-                <Input value={data.basics.email} onChange={handleInputChange} sectionKey="email" section="basics" id="email" label="Email" placeholder="you@example.com" />
+      <div className="max-h-screen grid grid-rows-[auto,1fr,auto] gap-4 w-[100rem] mx-auto max-w-full px-2">
+        <header>header</header>
+        <div className="w-full grid grid-flow-col grid-cols-2 gap-4 overflow-hidden">
+          <div className="overflow-y-auto">
+            <form action="">
+              <fieldset>
+                <Legend content="Basics" />
+                <div className="grid grid-cols-2 gap-1 p-2 gap-x-10">
+                  <AvatarInput onFileClick={handleFileClick} onFileChange={handleFileChange} onChange={handleInputChange} value={data.basics.picture} id="avatar" label="Picture" placeholder="https://..." sectionKey="picture" section="basics" />
+                  <Input onChange={handleInputChange} value={data.basics.fullName} id="full-name" label="Full Name" sectionKey="fullName" section="basics" />
+                  <Input value={data.basics.headline} onChange={handleInputChange} sectionKey="headline" section="basics" className="col-span-2" id="headline" label="Headline" />
+                  <Input value={data.basics.email} onChange={handleInputChange} sectionKey="email" section="basics" id="email" label="Email" placeholder="you@example.com" />
 
-                <Input value={data.basics.phone} onChange={handleInputChange} sectionKey="phone" section="basics" id="phone" label="Phone Number" placeholder="+996 002 141 221" />
-                <Input value={data.basics.website} onChange={handleInputChange} sectionKey="website" section="basics" id="website" label="Website" placeholder="yoursite.com" />
-                <Input value={data.basics.address} onChange={handleInputChange} sectionKey="address" section="basics" id="address" label="Address" placeholder="China/Beijing" />
-                <Textarea value={data.basics.summary} onChange={handleInputChange} sectionKey="summary" section="basics" className="col-span-2" label="Summary" />
-              </div>
-            </fieldset>
-          </form>
-          <ListFieldset legendContent="Experience" items={data.experience} onReorder={handleChangeItemIndex} onItemClick={handleListItemClick} section="experience" onClick={() => showModal("experience")} />
-          <ListFieldset legendContent="Education" items={data.education} onReorder={handleChangeItemIndex} onItemClick={handleListItemClick} section="education" onClick={() => showModal("education")} />
+                  <Input value={data.basics.phone} onChange={handleInputChange} sectionKey="phone" section="basics" id="phone" label="Phone Number" placeholder="+996 002 141 221" />
+                  <Input value={data.basics.website} onChange={handleInputChange} sectionKey="website" section="basics" id="website" label="Website" placeholder="yoursite.com" />
+                  <Input value={data.basics.address} onChange={handleInputChange} sectionKey="address" section="basics" id="address" label="Address" placeholder="China/Beijing" />
+                  <Textarea value={data.basics.summary} onChange={handleInputChange} sectionKey="summary" section="basics" className="col-span-2" label="Summary" />
+                </div>
+              </fieldset>
+            </form>
+            <ListFieldset legendContent="Experience" items={data.experience} onReorder={handleChangeItemIndex} onItemClick={handleListItemClick} section="experience" onClick={() => showModal("experience")} />
+            <ListFieldset legendContent="Education" items={data.education} onReorder={handleChangeItemIndex} onItemClick={handleListItemClick} section="education" onClick={() => showModal("education")} />
+          </div>
+          <Resume basics={data.basics} experience={data.experience} education={data.education} />
         </div>
-        <Resume basics={data.basics} experience={data.experience} education={data.education} />
+        <footer>footer</footer>
       </div>
       <Modal variant="experience" show={modalsShow.experience} values={modals.experience} onClose={hideModal} section="experience" onChange={handleModalInputChange} onCreate={() => handleModalCreateClick("experience")} onReset={(() => resetModal("experience"))} editForm={editModals} onUpdate={handleOnUpdateEntry} onDelete={handleOnDeleteEntry} />
       <Modal variant="education" show={modalsShow.education} values={modals.education} onClose={hideModal} section="education" onChange={handleModalInputChange} onCreate={() => handleModalCreateClick("education")} onReset={(() => resetModal("education"))} editForm={editModals} onUpdate={handleOnUpdateEntry} onDelete={handleOnDeleteEntry} />

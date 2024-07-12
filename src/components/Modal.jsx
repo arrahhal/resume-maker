@@ -2,7 +2,7 @@ import { Button, Input, Textarea } from "./Inputs"
 
 function ModalForm({ content, id, title, onClose, section, onCreate, onReset, editForm, onUpdate, onDelete, entryId }) {
   return (
-    <form id={id} className="grid grid-rows-[min-content,1fr,min-content] py-4 px-4 text-gray-800 absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 min-w-96 min-h-48 border border-gray-400 bg-white shadow-md rounded z-10 gap-3" onReset={onReset}>
+    <form id={id} className="grid grid-rows-[min-content,1fr,min-content] py-4 px-4 text-gray-800 absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2  min-w-[30rem] border border-gray-400 bg-white shadow-md rounded z-10 gap-3" onReset={onReset}>
       <div className="flex justify-between">
         <h1 className="font-lg font-bold self-end">{title}</h1>
         <Button variant="close" onClick={() => onClose(section)} />

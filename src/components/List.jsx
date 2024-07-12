@@ -86,7 +86,7 @@ function ListItem({ title, desc, id, onClick, index, dragTo, dragCurrent, onDrag
   return (
     <button type="button" className={`w-full text-start bg-gray-50 hover:bg-gray-100 rounded-sm p-1 ${styles}`} onClick={() => onClick(id)} draggable="true" onDragStart={() => onDragStart(index)} onDragEnd={onDragEnd} data-index={index}>
       <div className="font-bold" data-index={index} onDragOver={onDragOver}>{title}</div>
-      <div className="text-sm text-gray-700" data-index={index + 1} onDragOver={onDragOver}>{desc}</div>
+      <div className="text-gray-700" data-index={index + 1} onDragOver={onDragOver}>{desc}</div>
     </button>
   )
 }
