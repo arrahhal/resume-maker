@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { v4 as uuid } from 'uuid';
 import { Input, Textarea, AvatarInput } from './components/Inputs';
 import Legend from "./components/Styled";
@@ -6,7 +6,7 @@ import Resume from './components/Resume';
 import Modal from "./components/Modal";
 import ListFieldset from "./components/List";
 
-const init = {
+const init = localStorage.getItem("data") ? JSON.parse(localStorage.getItem("data")) : {
   basics: {
     picture: '',
     fullName: "John Doe",
@@ -60,28 +60,32 @@ const init = {
   ],
 }
 
+const initModals = localStorage.getItem("modals") ? JSON.parse(localStorage.getItem("modals")) : {
+  experience: {
+    company: "",
+    position: "",
+    date: "",
+    location: "",
+    website: "",
+    summary: "",
+  },
+  education: {
+    institution: "",
+    score: "",
+    areaOfStudy: "",
+    typeOfStudy: "",
+    date: "",
+    website: "",
+    summary: "",
+  }
+}
+
 function App() {
   const [data, setData] = useState(init);
 
-  const initModals = {
-    experience: {
-      company: "",
-      position: "",
-      date: "",
-      location: "",
-      website: "",
-      summary: "",
-    },
-    education: {
-      institution: "",
-      score: "",
-      areaOfStudy: "",
-      typeOfStudy: "",
-      date: "",
-      website: "",
-      summary: "",
-    }
-  }
+  useEffect(() => {
+    localStorage.setItem("data", JSON.stringify(data));
+  }, [data]);
 
   const initModalsShow = {
     experience: false,
@@ -92,8 +96,11 @@ function App() {
   const [modalsShow, setModalsShow] = useState(initModalsShow);
   const [editModals, setEditModals] = useState(false);
 
-  const handleInputChange = (value, section, key) => {
+  useEffect(() => {
+    localStorage.setItem("modals", JSON.stringify(modals));
+  }, [modals])
 
+  const handleInputChange = (value, section, key) => {
     const updatedSection = { ...data[section], [key]: value };
     const updatedData = { ...data, [section]: updatedSection };
     setData(updatedData);
