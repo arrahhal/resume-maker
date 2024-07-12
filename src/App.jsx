@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { v4 as uuid } from 'uuid';
-import { Input, Textarea, AvatarInput } from './components/Inputs';
+import { Input, Textarea, AvatarInput, Button } from './components/Inputs';
 import Legend from "./components/Styled";
 import Resume from './components/Resume';
 import Modal from "./components/Modal";
 import ListFieldset from "./components/List";
+import { PdfIcon } from "./components/Icons";
 
 const init = localStorage.getItem("data") ? JSON.parse(localStorage.getItem("data")) : {
   basics: {
@@ -209,6 +210,12 @@ function App() {
         <div className="w-full grid grid-flow-col grid-cols-2 gap-4 overflow-hidden">
           <div className="overflow-y-auto">
             <form action="">
+              <fieldset>
+                <Legend content="Settings" />
+                <div>
+                  <Button content="PDF" variant="iconic" icon={<PdfIcon fill="#fff" />} />
+                </div>
+              </fieldset>
               <fieldset>
                 <Legend content="Basics" />
                 <div className="grid grid-cols-2 gap-1 p-2 gap-x-10">

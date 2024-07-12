@@ -14,34 +14,67 @@ export function Input({ id, label, className = "", type = "text", placeholder, v
   )
 }
 
-export function Button({ content, className, id, variant = "", onClick, type = "button" }) {
-  let styles;
-  const common = "rounded-sm text-sm font-medium py-1 px-3 active:scale-95 text-white";
-  const primary = common.concat(" ", "bg-black active:bg-black/80");
-  const danger = common.concat(" ", "bg-red-500 active:bg-red-500/80");
-  const outline = "block text-sm font-medium px-4 py-1 active:underline active:bg-gray-200/20 active:border-solid";
+export function Button({
+  content,
+  className = '',
+  id,
+  variant = '',
+  onClick,
+  type = 'button',
+  icon = <div />,
+}) {
+  const common = "rounded-sm font-medium py-1 px-3 active:scale-95 text-white";
+  const primary = `${common} bg-black active:bg-black/80`;
+  const danger = `${common} bg-red-500 active:bg-red-500/80`;
+  const outline = "block font-medium px-4 py-1 active:underline active:bg-gray-200/20 active:border-solid";
   const close = "block m-1 p-1 border rounded-sm border-transparent active:border-black";
+  const iconic = "flex items-center justify-between border border-black";
+  const iconicContent = (
+    <>
+      <div className="bg-gray-200">{content}</div>
+      <div className="bg-gray-400">{icon}</div>
+    </>
+  );
 
-  switch (variant.toLowerCase()) {
-    case "primary":
-      styles = primary;
-      break;
-    case "danger":
-      styles = danger;
-      break;
-    case "outline":
-      styles = outline;
-      break;
-    case "close":
-      styles = close;
-      break;
-    default:
-      styles = primary;
-  }
+  const getButtonStyles = () => {
+    switch (variant.toLowerCase()) {
+      case 'primary':
+        return primary;
+      case 'danger':
+        return danger;
+      case 'outline':
+        return outline;
+      case 'close':
+        return close;
+      case 'iconic':
+        return iconic;
+      default:
+        return primary;
+    }
+  };
+
+  const renderButtonContent = () => {
+    if (variant.toLowerCase() === 'close') {
+      return <CloseIcon width="12px" height="12px" />;
+    }
+    if (variant === 'iconic') {
+      return iconicContent;
+    }
+    return content;
+  };
+
+  const styles = getButtonStyles();
 
   return (
-    <button type={type === "submit" ? "submit" : "button"} onClick={onClick} className={styles.concat(" ", className)} id={id}>{variant.toLowerCase() === "close" ? <CloseIcon width="12px" height="12px" /> : content}</button>
-  )
+    <button
+      type={type === 'submit' ? 'submit' : 'button'}
+      onClick={onClick}
+      className={`${styles} ${className}`}
+      id={id}
+    >
+      {renderButtonContent()}
+    </button>
+  );
 }
 
 export function Textarea({ label, className = "", id, value, onChange, sectionKey, section }) {
