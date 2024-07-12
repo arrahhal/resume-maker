@@ -84,12 +84,16 @@ const initModals = localStorage.getItem("modals") ? JSON.parse(localStorage.getI
 
 function App() {
   const [data, setData] = useState(init);
-  const [accentColor, setAccentColor] = useState("#000000");
+  const [accentColor, setAccentColor] = useState(localStorage.getItem("accentColor") || "#000000");
   const [pickerColor, setPickerColor] = useState("#000000");
 
   useEffect(() => {
     localStorage.setItem("data", JSON.stringify(data));
   }, [data]);
+
+  useEffect(() => {
+    localStorage.setItem("accentColor", accentColor);
+  }, [accentColor])
 
   const initModalsShow = {
     experience: false,
