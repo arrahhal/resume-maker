@@ -221,7 +221,7 @@ function App() {
   return (
     <>
       <div className="max-h-screen grid grid-rows-[auto,1fr,auto] gap-4 w-[100rem] mx-auto max-w-full px-2">
-        <header>header</header>
+        <header />
         <div className="w-full grid grid-flow-col grid-cols-2 gap-4 overflow-hidden">
           <div className="overflow-y-auto">
             <form action="">
@@ -251,7 +251,7 @@ function App() {
           </div>
           <Resume basics={data.basics} experience={data.experience} education={data.education} accentColor={accentColor} />
         </div>
-        <footer>footer</footer>
+        <footer />
       </div>
       <Modal variant="experience" show={modalsShow.experience} values={modals.experience} onClose={hideModal} section="experience" onChange={handleModalInputChange} onCreate={() => handleModalCreateClick("experience")} onReset={(() => resetModal("experience"))} editForm={editModals} onUpdate={handleOnUpdateEntry} onDelete={handleOnDeleteEntry} />
       <Modal variant="education" show={modalsShow.education} values={modals.education} onClose={hideModal} section="education" onChange={handleModalInputChange} onCreate={() => handleModalCreateClick("education")} onReset={(() => resetModal("education"))} editForm={editModals} onUpdate={handleOnUpdateEntry} onDelete={handleOnDeleteEntry} />
