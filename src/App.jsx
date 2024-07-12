@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { v4 as uuid } from 'uuid';
+// @ts-ignore
+import html2pdf from "html2pdf.js";
 import { Input, Textarea, AvatarInput, Button } from './components/Inputs';
 import Legend from "./components/Styled";
 import Resume from './components/Resume';
@@ -203,6 +205,11 @@ function App() {
     hideModal(section);
   });
 
+  const downloadPdf = () => {
+    const resume = document.getElementById('resume');
+    html2pdf(resume);
+  }
+
   return (
     <>
       <div className="max-h-screen grid grid-rows-[auto,1fr,auto] gap-4 w-[100rem] mx-auto max-w-full px-2">
@@ -213,7 +220,7 @@ function App() {
               <fieldset>
                 <Legend content="Settings" />
                 <div>
-                  <Button content="PDF" variant="iconic" icon={<PdfIcon fill="#fff" />} />
+                  <Button content="PDF" variant="iconic" icon={<PdfIcon fill="#fff" />} onClick={downloadPdf} />
                 </div>
               </fieldset>
               <fieldset>
@@ -223,6 +230,7 @@ function App() {
                   <Input onChange={handleInputChange} value={data.basics.fullName} id="full-name" label="Full Name" sectionKey="fullName" section="basics" />
                   <Input value={data.basics.headline} onChange={handleInputChange} sectionKey="headline" section="basics" className="col-span-2" id="headline" label="Headline" />
                   <Input value={data.basics.email} onChange={handleInputChange} sectionKey="email" section="basics" id="email" label="Email" placeholder="you@example.com" />
+
 
                   <Input value={data.basics.phone} onChange={handleInputChange} sectionKey="phone" section="basics" id="phone" label="Phone Number" placeholder="+996 002 141 221" />
                   <Input value={data.basics.website} onChange={handleInputChange} sectionKey="website" section="basics" id="website" label="Website" placeholder="yoursite.com" />

@@ -97,7 +97,7 @@ function List({ content = [], listTitle = "" }) {
 
 export default function Resume({ basics, experience, education }) {
   return (
-    <div className="p-4 border flex flex-col gap-6 overflow-y-auto">
+    <div className="p-4 border flex flex-col gap-6 overflow-y-auto" id="resume">
       <div className="flex gap-2 pb-4 border-b border-black">
         <div className="bg-gray-400 flex items-center justify-center w-20 aspect-square">
           <img className="object-cover w-full h-full" src={basics.picture} alt="avatar" />
