@@ -1,18 +1,18 @@
 import { PhoneIcon, EmailIcon, WebsiteIcon, AddressIcon } from "./Icons";
 
-function ContactEntry({ iconName, content, url }) {
+function ContactEntry({ iconName, content, url, fill }) {
   const width = "12px";
   const height = "12px";
   let icon = "";
 
   switch (iconName) {
-    case "phone": icon = <PhoneIcon width={width} height={height} />;
+    case "phone": icon = <PhoneIcon width={width} height={height} fill={fill} />;
       break;
-    case "email": icon = <EmailIcon width={width} height={height} />;
+    case "email": icon = <EmailIcon width={width} height={height} fill={fill} />;
       break;
-    case "website": icon = <WebsiteIcon width={width} height={height} />;
+    case "website": icon = <WebsiteIcon width={width} height={height} fill={fill} />;
       break;
-    case "address": icon = <AddressIcon width={width} height={height} />
+    case "address": icon = <AddressIcon width={width} height={height} fill={fill} />
       break;
     default: icon = <div width={width} height={width} />
   }
@@ -28,8 +28,8 @@ function ContactEntry({ iconName, content, url }) {
   )
 }
 
-function Title({ content }) {
-  return <p className="font-bold font-mono text-xl">{content}</p>
+function Title({ content, accentColor }) {
+  return <p className="font-bold font-mono text-xl" style={{ color: accentColor }}>{content}</p>
 }
 
 // i didnt knonw what to call it. i will change this when i need to
@@ -59,10 +59,10 @@ function Item({ title, subtitle, date, additionalInfo, url, body }) {
   )
 }
 
-function List({ content = [], listTitle = "" }) {
+function List({ content = [], listTitle = "", accentColor }) {
   return (
     <div>
-      {content.length !== 0 && <Title content={listTitle} />}
+      {content.length !== 0 && <Title content={listTitle} accentColor={accentColor} />}
       {content.map((entry, index) => {
         if (typeof entry !== 'object') return null;
         const {
@@ -95,10 +95,10 @@ function List({ content = [], listTitle = "" }) {
   )
 }
 
-export default function Resume({ basics, experience, education }) {
+export default function Resume({ basics, experience, education, accentColor }) {
   return (
     <div className="p-4 border flex flex-col gap-6 overflow-y-auto" id="resume">
-      <div className="flex gap-2 pb-4 border-b border-black">
+      <div className="flex gap-2 pb-4 border-b" style={{ borderBottomColor: accentColor }}>
         <div className="bg-gray-400 flex items-center justify-center w-20 aspect-square">
           <img className="object-cover w-full h-full" src={basics.picture} alt="avatar" />
         </div>
@@ -108,21 +108,21 @@ export default function Resume({ basics, experience, education }) {
             <p>{basics.headline}</p>
           </div>
           <div className="flex gap-4">
-            {basics.address && <ContactEntry iconName="address" content={basics.address} />}
-            {basics.phone && <ContactEntry iconName="phone" content={basics.phone} />}
-            {basics.email && <ContactEntry iconName="email" content={basics.email} url={`mailto:${basics.email}`} />}
-            {basics.website && <ContactEntry iconName="website" content={basics.website} url={basics.website} />}
+            {basics.address && <ContactEntry iconName="address" content={basics.address} fill={accentColor} />}
+            {basics.phone && <ContactEntry iconName="phone" content={basics.phone} fill={accentColor} />}
+            {basics.email && <ContactEntry iconName="email" content={basics.email} url={`mailto:${basics.email}`} fill={accentColor} />}
+            {basics.website && <ContactEntry iconName="website" content={basics.website} url={basics.website} fill={accentColor} />}
           </div>
         </div>
       </div>
       {basics.summary && (
         <div>
-          <Title content="Summary" />
+          <Title content="Summary" accentColor={accentColor} />
           <p className="whitespace-pre-line">{basics.summary}</p>
         </div>
       )}
-      <List content={experience} listTitle="Experience" />
-      <List content={education} listTitle="Education" />
+      <List content={experience} listTitle="Experience" accentColor={accentColor} />
+      <List content={education} listTitle="Education" accentColor={accentColor} />
     </div>
   )
 }

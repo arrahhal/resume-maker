@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { v4 as uuid } from 'uuid';
-// @ts-ignore
 import html2pdf from "html2pdf.js";
-import { Input, Textarea, AvatarInput, Button } from './components/Inputs';
+import { Input, Textarea, AvatarInput, Button, ColorPicker } from './components/Inputs';
 import Legend from "./components/Styled";
 import Resume from './components/Resume';
 import Modal from "./components/Modal";
@@ -85,6 +84,8 @@ const initModals = localStorage.getItem("modals") ? JSON.parse(localStorage.getI
 
 function App() {
   const [data, setData] = useState(init);
+  const [accentColor, setAccentColor] = useState("#000000");
+  const [pickerColor, setPickerColor] = useState("#000000");
 
   useEffect(() => {
     localStorage.setItem("data", JSON.stringify(data));
@@ -210,6 +211,13 @@ function App() {
     html2pdf(resume);
   }
 
+  const handlePickerColorChange = (color = "") => {
+    const valid = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+    if (valid.test(color))
+      setAccentColor(color);
+    setPickerColor(color);
+  }
+
   return (
     <>
       <div className="max-h-screen grid grid-rows-[auto,1fr,auto] gap-4 w-[100rem] mx-auto max-w-full px-2">
@@ -219,8 +227,9 @@ function App() {
             <form action="">
               <fieldset>
                 <Legend content="Settings" />
-                <div>
+                <div className="flex gap-1">
                   <Button content="PDF" variant="iconic" icon={<PdfIcon fill="#fff" />} onClick={downloadPdf} />
+                  <ColorPicker colors={["#FF6900", "#FCB900", "#00D084", "#0693E3", "#EB144C", "#ABB8C3", "#000000"]} pickerColor={pickerColor} onClick={handlePickerColorChange} onChange={handlePickerColorChange} />
                 </div>
               </fieldset>
               <fieldset>
@@ -230,8 +239,6 @@ function App() {
                   <Input onChange={handleInputChange} value={data.basics.fullName} id="full-name" label="Full Name" sectionKey="fullName" section="basics" />
                   <Input value={data.basics.headline} onChange={handleInputChange} sectionKey="headline" section="basics" className="col-span-2" id="headline" label="Headline" />
                   <Input value={data.basics.email} onChange={handleInputChange} sectionKey="email" section="basics" id="email" label="Email" placeholder="you@example.com" />
-
-
                   <Input value={data.basics.phone} onChange={handleInputChange} sectionKey="phone" section="basics" id="phone" label="Phone Number" placeholder="+996 002 141 221" />
                   <Input value={data.basics.website} onChange={handleInputChange} sectionKey="website" section="basics" id="website" label="Website" placeholder="yoursite.com" />
                   <Input value={data.basics.address} onChange={handleInputChange} sectionKey="address" section="basics" id="address" label="Address" placeholder="China/Beijing" />
@@ -242,7 +249,7 @@ function App() {
             <ListFieldset legendContent="Experience" items={data.experience} onReorder={handleChangeItemIndex} onItemClick={handleListItemClick} section="experience" onClick={() => showModal("experience")} />
             <ListFieldset legendContent="Education" items={data.education} onReorder={handleChangeItemIndex} onItemClick={handleListItemClick} section="education" onClick={() => showModal("education")} />
           </div>
-          <Resume basics={data.basics} experience={data.experience} education={data.education} />
+          <Resume basics={data.basics} experience={data.experience} education={data.education} accentColor={accentColor} />
         </div>
         <footer>footer</footer>
       </div>

@@ -28,7 +28,7 @@ export function Button({
   const danger = `${common} bg-red-500 active:bg-red-500/80`;
   const outline = "block font-medium px-4 py-1 active:underline active:bg-gray-200/20 active:border-solid";
   const close = "block m-1 p-1 border rounded-sm border-transparent active:border-black";
-  const iconic = "flex items-center justify-between border border-black";
+  const iconic = "flex border border-black h-fit";
   const iconicContent = (
     <>
       <div className="bg-gray-200">{content}</div>
@@ -127,6 +127,23 @@ export function AvatarInput({ id, className = "", inputClassName = "", value = "
         </style>
       </div>
       <Input className={inputClassName} label="Picture" value={value} placeholder="https://..." section={section} sectionKey={sectionKey} onChange={onChange} />
+    </div>
+  )
+}
+
+function ColorSquare({ color, onClick }) {
+  return (
+    <button type="button" title={color} className="h-8 w-12 hover:outline hover:outline-white" style={{ backgroundColor: color }} onClick={() => onClick(color)} />
+  )
+}
+
+export function ColorPicker({ pickerColor, colors = [], onClick, onChange }) {
+  return (
+    <div className="flex gap-2 bg-gray-100 p-2 items-center">
+      {colors.map(color =>
+        <ColorSquare color={color} onClick={onClick} />
+      )}
+      <Input label="Accent Color" placeholder="#000000" value={pickerColor} onChange={onChange} />
     </div>
   )
 }
