@@ -2,7 +2,7 @@ import { Button, Input, Textarea } from "./Inputs"
 
 function ModalForm({ content, id, title, onClose, section, onCreate, onReset, editForm, onUpdate, onDelete, entryId }) {
   return (
-    <form id={id} className="grid grid-rows-[min-content,1fr,min-content] py-4 px-4 text-gray-800 absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2  min-w-[30rem] border border-gray-400 bg-white shadow-md rounded z-10 gap-3" onReset={onReset}>
+    <form id={id} className="grid grid-rows-[min-content,1fr,min-content] py-4 px-4 text-gray-800 absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2  w-[30rem] border border-gray-400 bg-white shadow-md rounded z-10 gap-3 max-md:w-[24rem] max-sm:max-w-full" onReset={onReset}>
       <div className="flex justify-between">
         <h1 className="font-lg font-bold self-end">{title}</h1>
         <Button variant="close" onClick={() => onClose(section)} />
@@ -68,8 +68,8 @@ export default function Modal({ variant = "experience", section, show = false, o
     default: fields = <ExpFields onChange={onChange} section={section} values={values} />;
   }
   return (
-    <div className={show ? "" : "hidden"}>
-      <ModalForm content={fields} id={`${section}-form`} title={editForm ? "Edit an item" : "Create a new item"} onClose={onClose} section={section} onCreate={onCreate} onReset={onReset} editForm={editForm} onDelete={onDelete} onUpdate={onUpdate} entryId={values.id} />
+    <div className={`${show ? "" : "hidden"} max-md:text-sm`}>
+      <ModalForm content={fields} id={`${section}- form`} title={editForm ? "Edit an item" : "Create a new item"} onClose={onClose} section={section} onCreate={onCreate} onReset={onReset} editForm={editForm} onDelete={onDelete} onUpdate={onUpdate} entryId={values.id} />
       <ModalLayer />
     </div>
   )

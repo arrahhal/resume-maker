@@ -226,7 +226,7 @@ function App() {
     <>
       <div className="max-h-screen grid grid-rows-[auto,1fr,auto] gap-4 w-[100rem] mx-auto max-w-full px-2">
         <header />
-        <div className="w-full grid grid-flow-col grid-cols-2 gap-4 overflow-hidden">
+        <div className="w-full grid grid-cols-2 gap-4 overflow-hidden max-lg:grid-cols-1 max-lg:grid-rows-2 max-md:text-sm">
           <div className="overflow-y-auto">
             <form action="">
               <fieldset>

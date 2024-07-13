@@ -133,17 +133,17 @@ export function AvatarInput({ id, className = "", inputClassName = "", value = "
 
 function ColorSquare({ color, onClick }) {
   return (
-    <button type="button" title={color} className="h-8 w-12 hover:outline hover:outline-white" style={{ backgroundColor: color }} onClick={() => onClick(color)} />
+    <button type="button" title={color} className="min-w-8 hover:outline hover:outline-white aspect-square max-sm:min-w-6" style={{ backgroundColor: color }} onClick={() => onClick(color)} />
   )
 }
 
 export function ColorPicker({ pickerColor, colors = [], onClick, onChange }) {
   return (
-    <div className="flex gap-2 bg-gray-100 p-2 items-center">
+    <div className="flex gap-2 bg-gray-100 p-2 items-center max-sm:flex-wrap-reverse">
       {colors.map(color =>
         <ColorSquare color={color} onClick={onClick} />
       )}
-      <Input label="Accent Color" placeholder="#000000" value={pickerColor} onChange={onChange} />
+      <Input label="Accent Color" placeholder="#000000" value={pickerColor} onChange={onChange} className="max-w-60" />
     </div>
   )
 }
