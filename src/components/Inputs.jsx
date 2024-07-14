@@ -143,7 +143,7 @@ export function ColorPicker({ pickerColor, colors = [], onClick, onChange }) {
       {colors.map(color =>
         <ColorSquare color={color} onClick={onClick} />
       )}
-      <Input label="Accent Color" placeholder="#000000" value={pickerColor} onChange={onChange} className="max-w-60" />
+      <Input placeholder="#000000" value={pickerColor} onChange={onChange} className="max-w-60" />
     </div>
   )
 }

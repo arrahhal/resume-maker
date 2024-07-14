@@ -231,9 +231,9 @@ function App() {
             <form action="">
               <fieldset>
                 <Legend content="Settings" />
-                <div className="flex gap-1">
+                <div className="flex gap-1 items-center">
                   <Button content="PDF" variant="iconic" icon={<PdfIcon fill="#fff" />} onClick={downloadPdf} />
-                  <ColorPicker colors={["#FF6900", "#FCB900", "#00D084", "#0693E3", "#EB144C", "#ABB8C3", "#000000"]} pickerColor={pickerColor} onClick={handlePickerColorChange} onChange={handlePickerColorChange} />
+                  <ColorPicker colors={["#FF6900", "#0693E3", "#EB144C", "#000000"]} pickerColor={pickerColor} onClick={handlePickerColorChange} onChange={handlePickerColorChange} />
                 </div>
               </fieldset>
               <fieldset>
